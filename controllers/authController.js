@@ -1,7 +1,6 @@
 const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
-// Registration function
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -29,12 +28,10 @@ exports.register = async (req, res) => {
 exports.login = (req, res) => {
     const { email, password } = req.body;
 
-    // Validate input fields
     if (!email || !password) {
         return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Query to find user by email
     const query = 'SELECT * FROM users WHERE email = ?';
     db.query(query, [email], (err, results) => {
         if (err) {
@@ -42,22 +39,15 @@ exports.login = (req, res) => {
             return res.status(500).json({ error: 'Database error' });
         }
 
-        // Check if user exists
         if (results.length === 0) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
 
         const user = results[0];
 
-        // Simple string comparison for plain-text passwords (not recommended for production)
         if (password !== user.password) {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
-
-        // Token generation logic (replace with actual token generation if needed)
-        // const token = 'dummy_token'; // Replace with real token generation logic
-
-        // Successful login response
         res.json({
             message: 'Login successful',
             userData: {

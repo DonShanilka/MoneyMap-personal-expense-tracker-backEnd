@@ -1,10 +1,7 @@
 const db = require('../config/db');
 
-// save funtion
 exports.saveData = async (req, res) => {
     const { category, price, date, itemname, userEmail } = req.body;
-
-    // Assuming 'req.userEmail' is populated from the user's session, token, etc.
 
     if (!userEmail) {
         return res.status(400).json({ error: 'User not authenticated' });
@@ -22,11 +19,9 @@ exports.saveData = async (req, res) => {
 };
 
 
-//  getAll funtion
 exports.getExpensesByUser = (req, res) => {
-    const { userEmail } = req.params; // Assuming `userEmail` is passed as a URL parameter
+    const { userEmail } = req.params; 
 
-    // Updated query to filter by `userEmail`
     const query = 'SELECT * FROM expenses WHERE userEmail = ?';
 
     db.query(query, [userEmail], (err, results) => {
@@ -39,7 +34,6 @@ exports.getExpensesByUser = (req, res) => {
 };
 
 
-// delete funtion
 exports.deleteExpense = (req, res) => {
     const expenseId = req.params.id;
     const query = 'DELETE FROM expenses WHERE id = ?';
@@ -57,11 +51,9 @@ exports.deleteExpense = (req, res) => {
 };
 
 
-// controllers/expenseController.js
 exports.updateExpense = (req, res) => {
     const { id, category, price, date, itemname } = req.body;
 
-    // Ensure that all necessary fields are provided
     if (!id || !category || !price || !date || !itemname) {
         return res.status(400).json({ error: 'ID, category, price, and date are required' });
     }
