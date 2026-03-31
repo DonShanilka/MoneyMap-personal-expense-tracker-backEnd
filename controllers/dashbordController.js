@@ -119,7 +119,7 @@ exports.getCatogoryTotal = (req, res) => {
         SELECT category, SUM(price) AS total_price
         FROM expenses
         WHERE userEmail = ?  -- Filter by user email
-        AND category IN ('Foods', 'Transport', 'Education', 'shoping', 'Other')  -- Ensure correct categories
+        AND category IN ('Foods', 'Transport', 'Education', 'Shopping', 'Other')  -- Ensure correct categories
         GROUP BY category
     `;
 
